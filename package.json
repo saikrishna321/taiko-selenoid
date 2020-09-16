@@ -1,10 +1,10 @@
 {
-  "name": "taiko-screeny",
+  "name": "taiko-selenoid",
   "version": "1.0.0",
-  "description": "A tool to capture screenshot for every taiko action",
+  "description": "A plugin to run taiko tests in selenoid cluster",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "npm run build && npm install -g . && TAIKO_PLUGIN='taiko-screeny' mocha __tests__/*.spec.js --timeout 90000",
+    "test": "npm run prestest && TAIKO_PLUGIN='taiko-selenoid' mocha __tests__/*.spec.js --timeout 90000",
     "build": "babel src -d lib",
     "prepublish": "babel src -d lib",
     "cm:install": "curl -s https://aerokube.com/cm/bash | bash",
@@ -15,33 +15,33 @@
     "selenoid:stop": "./cm selenoid stop",
     "selenoid:cleanup": "./cm selenoid cleanup",
     "prestest": "npm run selenoid:download && npm run selenoid:configure && npm run selendoid:ui && npm run selenoid:start",
-    "aftertest": "npm run selenoid:cleanup && npm run selenoid:stop && npm run selenoid:cleanup",
-    "test": "LOCAL_PROTOCOL=true npm run prestest && mocha __tests__/taiko-selenoid.spec.js --require esm --timeout 900000"
+    "aftertest": "npm run selenoid:cleanup && npm run selenoid:stop && npm run selenoid:cleanup"
   },
   "files": [
     "lib"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saikrishna321/taiko-screeny.git"
+    "url": "git+https://github.com/saikrishna321/taiko-selenoid.git"
   },
   "keywords": [
     "taiko",
-    "android"
+    "selenoid",
+    "docker"
   ],
   "author": "saikrishna",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/saikrishna321/taiko-screeny/issues"
+    "url": "https://github.com/saikrishna321/taiko-selenoid/issues"
   },
-  "homepage": "https://github.com/saikrishna321/taiko-screeny#readme",
+  "homepage": "https://github.com/saikrishna321/taiko-selenoid#readme",
   "dependencies": {
     "chalk": "^4.1.0",
     "fs-extra": "^9.0.1",
     "axios": "0.19.0"
   },
   "devDependencies": {
-    "taiko": "^1.0.20",
+    "taiko": "https://github.com/getgauge/taiko",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
