@@ -1,7 +1,13 @@
-const { openBrowser, goto, title } = require('taiko');
+const {
+  openBrowser,
+  goto,
+  title,
+  screenshot,
+  closeBrowser,
+  waitFor,
+} = require('taiko');
 import axios from 'axios';
-const CDP = require('chrome-remote-interface');
-const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 describe('Taiko Selenoid Example', () => {
   let sessionId;
@@ -15,31 +21,32 @@ describe('Taiko Selenoid Example', () => {
           browserName: 'chrome',
           browserVersion: '84.0',
           'selenoid:options': {
-            sessionTimeout: '3m',
+            sessionTimeout: '1m',
             enableVnc: true,
           },
         },
       }
     );
     sessionId = data.sessionId;
-  });
-  it('Connect to Selendoid with Puppeteer', async () => {
-    let browser = await puppeteer.connect({
-      browserWSEndpoint: `ws://${selenoidUrl}:4444/devtools/${sessionId}`,
-    });
-    const pages = await browser.pages();
-    console.log(pages);
+    console.log(sessionId);
+    const jsonProtocol = await axios.get(
+      `ws://${selenoidUrl}:4444/devtools/${sessionId}/json/protocol`
+    );
+    fs.writeFileSync('localProtocol.json', JSON.stringify(jsonProtocol.data));
   });
 
   it('Connect to Selendoid with CRI', async () => {
-    const options = {
-      target: `ws://${selenoidUrl}:4444/devtools/${sessionId}`,
-    };
-    CDP(options, (client) => {
-      console.log('Connected!');
-      client.close();
-    }).on('error', (err) => {
-      console.error(err);
+    await openBrowser({
+      host: '127.0.0.1',
+      port: 4444,
+      target: `/devtools/${sessionId}/page`,
+      local: true,
+      protocol: require('../localProtocol.json'),
     });
+    await goto('google.com');
+    await screenshot();
+    await waitFor(10000);
+    console.log(await title());
+    await closeBrowser();
   });
 });
