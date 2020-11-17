@@ -9,7 +9,7 @@
     "prepublish": "babel src -d lib",
     "cm:install": "curl -s https://aerokube.com/cm/bash | bash",
     "selenoid:download": "./cm selenoid download",
-    "selenoid:configure": "./cm selenoid configure --browsers chrome:84.0 ",
+    "selenoid:configure": "./cm selenoid configure --browsers chrome:84.0 -f",
     "selenoid:start": "./cm selenoid start",
     "selendoid:ui": "./cm selenoid-ui start",
     "selenoid:stop": "./cm selenoid stop",
@@ -20,6 +20,9 @@
   "files": [
     "lib"
   ],
+  "bin": {
+    "taiko-selenoid": "./lib/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/saikrishna321/taiko-selenoid.git"
@@ -36,12 +39,13 @@
   },
   "homepage": "https://github.com/saikrishna321/taiko-selenoid#readme",
   "dependencies": {
+    "await-spawn": "^4.0.1",
+    "axios": "0.19.0",
     "chalk": "^4.1.0",
-    "fs-extra": "^9.0.1",
-    "axios": "0.19.0"
+    "fs-extra": "^9.0.1"
   },
   "devDependencies": {
-    "taiko": "https://github.com/getgauge/taiko",
+    "taiko": "1.0.24",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",

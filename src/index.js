@@ -19,7 +19,7 @@ export async function openBrowser() {
     {
       desiredCapabilities: {
         browserName: 'chrome',
-        browserVersion: '84.0',
+        browserVersion: '86.0',
         'selenoid:options': {
           sessionTimeout: '3m',
           enableVnc: true
