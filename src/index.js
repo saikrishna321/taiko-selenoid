@@ -1,12 +1,11 @@
-import axios from 'axios';
-const fs = require('fs');
+import axios from "axios";
+const fs = require("fs");
 
-export const ID = 'selenoid';
-console.log('-----');
+export const ID = "selenoid";
 let _openBrowser;
 let _closeBrowser;
 let sessionId;
-let selenoidUrl = '127.0.0.1';
+let selenoidUrl = "127.0.0.1";
 
 export async function init(taiko, eventEmitter) {
   _openBrowser = taiko.openBrowser;
@@ -18,36 +17,36 @@ export async function openBrowser() {
     `http://${selenoidUrl}:4444/wd/hub/session`,
     {
       desiredCapabilities: {
-        browserName: 'chrome',
-        browserVersion: '86.0',
-        'selenoid:options': {
-          sessionTimeout: '3m',
-          enableVnc: true
-        }
-      }
+        browserName: "chrome",
+        browserVersion: "86.0",
+        "selenoid:options": {
+          sessionTimeout: "3m",
+          enableVnc: true,
+        },
+      },
     }
   );
   sessionId = data.sessionId;
-  console.log('***', sessionId);
   const jsonProtocol = await axios.get(
     `ws://${selenoidUrl}:4444/devtools/${sessionId}/json/protocol`
   );
-  fs.writeFileSync('localProtocol.json', JSON.stringify(jsonProtocol.data));
+  fs.writeFileSync("localProtocol.json", JSON.stringify(jsonProtocol.data));
   await _openBrowser({
-    host: '127.0.0.1',
+    host: "127.0.0.1",
     port: 4444,
     target: `/devtools/${sessionId}/page`,
-    protocol: require('../localProtocol.json')
+    protocol: require("../localProtocol.json"),
   });
 }
 
 export async function closeBrowser() {
   await _closeBrowser();
+  await axios.delete(`http://${selenoidUrl}:4444/wd/hub/session/${sessionId}`);
 }
 
 module.exports = {
   ID,
   init,
   openBrowser,
-  closeBrowser
+  closeBrowser,
 };
