@@ -1,59 +1,52 @@
 #!/usr/bin/env node
-const { promisify } = require("util");
-const exec = promisify(require("child_process").exec);
-var spawn = require("child_process").spawn;
-const chalk = require("chalk");
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec);
+var spawn = require('child_process').spawn;
+const chalk = require('chalk');
+const fs = require('fs');
 const log = console.log;
 class SelenoidSetup {
   async downloadCM() {
-    log(chalk.greenBright("Configuration Manager Downloadin..."));
-    const { stdout, stderr } = await exec(
-      "curl -s https://aerokube.com/cm/bash | bash"
-    );
-    log("stdout:", stdout);
-    log("stderr:", stderr);
+    log(chalk.greenBright('Configuration Manager Downloadin...'));
+    const { stdout, stderr } = await exec('curl -s https://aerokube.com/cm/bash | bash');
+    log('stdout:', stdout);
+    log('stderr:', stderr);
     this.selenoidSetup();
   }
 
   selenoidSetup() {
-    log(chalk.greenBright("Configure Browser Version to 86.0"));
-    const ls = spawn("./cm", [
-      "selenoid",
-      "configure",
-      "--browsers",
-      "chrome:86.0",
-      "-f",
-    ]);
-    ls.stdout.on("data", function(data) {
+    log(chalk.greenBright('Configure Browser Version to 86.0'));
+    const ls = spawn('./cm', ['selenoid', 'configure', '--browsers', 'chrome:86.0', '-f']);
+    ls.stdout.on('data', function(data) {
       log(chalk.blue(data.toString()));
     });
 
-    ls.stderr.on("data", function(data) {
+    ls.stderr.on('data', function(data) {
       log(chalk.cyan(data.toString()));
     });
 
-    ls.on("exit", this.startSelenoid);
+    ls.on('exit', this.startSelenoid);
   }
 
   startSelenoid() {
-    log(chalk.greenBright("Starting Selenoid...."));
-    const ls = spawn("./cm", ["selenoid", "start", "--vnc"]);
-    ls.stdout.on("data", function(data) {
+    log(chalk.greenBright('Starting Selenoid....'));
+    const ls = spawn('./cm', ['selenoid', 'start', '--vnc']);
+    ls.stdout.on('data', function(data) {
       console.log(chalk.blue(data.toString()));
     });
 
-    ls.stderr.on("data", function(data) {
+    ls.stderr.on('data', function(data) {
       console.log(chalk.cyan(data.toString()));
     });
-    ls.on("exit", () => {
+    ls.on('exit', () => {
       return () => {
-        log(chalk.greenBright("Starting Selenoid UI"));
-        const ls = spawn("./cm", ["selenoid-ui", "start"]);
-        ls.stdout.on("data", function(data) {
+        log(chalk.greenBright('Starting Selenoid UI'));
+        const ls = spawn('./cm', ['selenoid-ui', 'start']);
+        ls.stdout.on('data', function(data) {
           log(chalk.blueBright(data.toString()));
         });
 
-        ls.stderr.on("data", function(data) {
+        ls.stderr.on('data', function(data) {
           log(chalk.gray(data.toString()));
         });
       };
