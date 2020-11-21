@@ -3,8 +3,8 @@ const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 var spawn = require('child_process').spawn;
 const chalk = require('chalk');
-const fs = require('fs');
 const log = console.log;
+
 class SelenoidSetup {
   async downloadCM() {
     log(chalk.greenBright('Configuration Manager Downloadin...'));
