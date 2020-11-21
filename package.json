@@ -14,6 +14,7 @@
     "selendoid:ui": "./cm selenoid-ui start",
     "selenoid:stop": "./cm selenoid stop",
     "selenoid:cleanup": "./cm selenoid cleanup",
+    "prettier": "prettier --write .",
     "prestest": "npm run selenoid:download && npm run selenoid:configure && npm run selendoid:ui && npm run selenoid:start",
     "aftertest": "npm run selenoid:cleanup && npm run selenoid:stop && npm run selenoid:cleanup"
   },
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "taiko": "1.0.24",
+    "prettier": "1.17.0",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
@@ -53,7 +55,6 @@
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.8.0",
     "husky": "^2.1.0",
-    "prettier": "1.17.0",
     "jest": "^24.8.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-prettier": "^3.0.1",
@@ -63,7 +64,7 @@
     "assert": "^2.0.0"
   },
   "lint-staged": {
-    "**/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write --single-quote",
       "git add"
     ]
