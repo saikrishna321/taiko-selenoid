@@ -32,6 +32,8 @@ stages:
   - job: Install
     steps:  
       - script: |
-          export PATH="$HOME/.node/bin:$PATH"
+          echo $HOME
+          echo $PATH
+          export PATH="$HOME/bin:$PATH"
           /usr/local/lib/node_modules/taiko-selenoid
         displayName: 'Install Selenoid'
