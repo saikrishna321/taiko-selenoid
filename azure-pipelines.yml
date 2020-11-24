@@ -35,5 +35,5 @@ stages:
           echo $HOME
           echo $PATH
           export PATH="$HOME/bin:$PATH"
-          /usr/local/lib/node_modules/taiko-selenoid
+          /usr/local/bin/taiko-selenoid
         displayName: 'Install Selenoid'
