@@ -33,5 +33,5 @@ stages:
     steps:  
       - script: |
           export PATH="$HOME/.node/bin:$PATH"
-          taiko-selenoid
+          /usr/local/lib/node_modules/taiko-selenoid
         displayName: 'Install Selenoid'
