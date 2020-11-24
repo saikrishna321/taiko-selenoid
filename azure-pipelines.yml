@@ -21,13 +21,16 @@ stages:
         inputs:
          command: install
         displayName: 'npm install'
+      - task: Npm@0
+        inputs:
+         command: link
+        displayName: 'npm link'
 
-- stage: link
-  displayName: Npm link
+- stage: CLI
+  displayName: Taiko Selenoid CLI
   jobs:
   - job: Install
     steps:  
-      - task: Npm@0
-        inputs:
-          command: link
-        displayName: 'npm link'
+      - script: |
+          taiko-selenoid
+        displayName: 'Install Selenoid'
