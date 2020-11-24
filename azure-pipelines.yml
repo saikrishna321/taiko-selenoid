@@ -1,18 +1,25 @@
-trigger:
-- main
-
 pool:
-  vmImage: 'ubuntu-latest'
+   name: Default
+   vmImage: 'macos-10.15'
+  
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - job: Build
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+        displayName: 'Install Node.js'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm link
-    taiko-selenoid
-    npm test
-  displayName: 'npm install and build'
+      - task: Npm@1
+        inputs:
+          command: install
+        displayName: 'npm install and build'
+      
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: link
+        displayName: 'npm link'
