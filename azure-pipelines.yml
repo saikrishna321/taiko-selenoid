@@ -1,5 +1,4 @@
 pool:
-   name: Default
    vmImage: 'macos-10.15'
   
 stages:
