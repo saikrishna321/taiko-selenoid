@@ -8,16 +8,29 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
+  
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - job: Build
+    pool:
+      name: Default
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '10.x'
+        displayName: 'Install Node.js'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+      - task: Npm@1
+        inputs:
+          command: install
+        displayName: 'npm install and build'
+      
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: link
+        displayName: 'npm link'
+  
 
-- script: |
-    npm install
-    npm link
-    taiko-selenoid
-    npm test
-  displayName: 'npm install and build'
