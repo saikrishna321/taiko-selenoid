@@ -12,11 +12,21 @@ stages:
           versionSpec: '10.x'
         displayName: 'Install Node.js'
 
+- stage: install
+  displayName: Npm Install and link
+  jobs:
+  - job: Install
+    steps:
       - task: Npm@0
         inputs:
          command: install
-        displayName: 'npm install and build'
-      
+        displayName: 'npm install'
+
+- stage: link
+  displayName: Npm link
+  jobs:
+  - job: Install
+    steps:  
       - task: Npm@0
         inputs:
           command: link
