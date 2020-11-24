@@ -32,5 +32,6 @@ stages:
   - job: Install
     steps:  
       - script: |
+          export PATH="$HOME/.node/bin:$PATH"
           taiko-selenoid
         displayName: 'Install Selenoid'
