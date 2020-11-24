@@ -14,10 +14,10 @@ stages:
 
       - task: Npm@0
         inputs:
-         command: npm install
+         command: install
         displayName: 'npm install and build'
       
       - task: Npm@0
         inputs:
-          command: npm link
+          command: link
         displayName: 'npm link'
