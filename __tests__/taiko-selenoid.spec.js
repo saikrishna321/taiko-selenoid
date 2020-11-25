@@ -11,7 +11,7 @@ describe('Taiko Selenoid Example', () => {
     await click('Documentation');
     await click('API Reference');
     const elementPresent = await text('Browser actions').exists();
-    assert.ok(elementPresent , true);
+    assert.ok(elementPresent, true);
   });
 
   after(async () => {

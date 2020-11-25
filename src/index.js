@@ -7,7 +7,7 @@ let _closeBrowser;
 let sessionId;
 let selenoidUrl = '127.0.0.1';
 
-export async function init(taiko, eventEmitter) {
+export async function init(taiko) {
   _openBrowser = taiko.openBrowser;
   _closeBrowser = taiko.closeBrowser;
 }
