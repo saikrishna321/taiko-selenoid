@@ -25,15 +25,14 @@ stages:
         inputs:
          command: link
         displayName: 'npm link'
+      - script: |
+          taiko-selenoid
 
-- stage: CLI
-  displayName: Taiko Selenoid CLI
+- stage: Test
+  displayName: Taiko Selenoid Test
   jobs:
   - job: Install
     steps:  
       - script: |
-          echo $HOME
-          echo $PATH
-          export PATH="$HOME/bin:$PATH"
-          /usr/local/lib/node_modules/taiko-selenoid/lib/cli.js
-        displayName: 'Install Selenoid'
+          npm test
+        displayName: 'Run Selenoid'
