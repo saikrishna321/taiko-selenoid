@@ -27,6 +27,7 @@ jobs:
        displayName: 'Install Node.js'
 
      - script: |
+          open --hide --background -a Docker
           npm install
           npm link
           taiko-selenoid
