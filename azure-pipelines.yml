@@ -1,32 +1,18 @@
-pool:
-   vmImage: 'ubuntu-latest'
-  
-stages:
-- stage: build
-  displayName: Build
-  jobs:
-  - job: Build
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.x'
-        displayName: 'Install Node.js'
+trigger:
+- main
 
-- stage: install
-  displayName: Install and Run Test
-  jobs:
-  - job: Install
-    steps:
-      - task: Npm@0
-        inputs:
-         command: install
-        displayName: 'npm install'
-        
-      - script: |
-          npm link
-          taiko-selenoid
-        displayName: Install Selenoid Dependencies
-      - task: Npm@0
-        inputs:
-          command: test
-        displayName: Run Selenoid Test
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm link
+    taiko-selenoid
+    npm test
+  displayName: 'npm install and build'
