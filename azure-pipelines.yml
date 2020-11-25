@@ -25,10 +25,10 @@ stages:
         inputs:
          command: link
         displayName: 'npm link'
-      - task: Docker@2
-        displayName: Install Selenoid Dependencies
+        
       - script: |
           taiko-selenoid
+        displayName: Install Selenoid Dependencies
       - task: Npm@0
         inputs:
           command: test
