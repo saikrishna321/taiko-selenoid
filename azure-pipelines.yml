@@ -13,7 +13,7 @@ stages:
         displayName: 'Install Node.js'
 
 - stage: install
-  displayName: Npm Install and link
+  displayName: Install and Run Test
   jobs:
   - job: Install
     steps:
@@ -27,12 +27,7 @@ stages:
         displayName: 'npm link'
       - script: |
           taiko-selenoid
-
-- stage: Test
-  displayName: Taiko Selenoid Test
-  jobs:
-  - job: Install
-    steps:  
-      - script: |
-          npm test
-        displayName: 'Run Selenoid'
+      - task: Npm@0
+        inputs:
+          command: test
+        displayName: Run Selenoid Test
