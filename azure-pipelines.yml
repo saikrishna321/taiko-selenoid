@@ -15,3 +15,20 @@ jobs:
           taiko-selenoid
           npm test
        displayName: 'Npm Install and Test'
+  
+  - job: Mac_OS
+    pool:
+     vmImage: 'macos-10.15'
+
+    steps:
+     - task: NodeTool@0
+       inputs:
+        versionSpec: '10.x'
+       displayName: 'Install Node.js'
+
+     - script: |
+          npm install
+          npm link
+          taiko-selenoid
+          npm test
+       displayName: 'Npm Install and Test'
