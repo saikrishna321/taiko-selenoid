@@ -8,7 +8,8 @@ module.exports = {
   env: {
     node: true,
     es6: true,
-    jest: true
+    jest: true,
+    mocha: true
   },
   parser: 'babel-eslint',
   parserOptions: {
@@ -18,6 +19,7 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
-    quotes: ['error', 'single']
+    quotes: ['error', 'single'],
+    "no-console": "off",
   }
 };

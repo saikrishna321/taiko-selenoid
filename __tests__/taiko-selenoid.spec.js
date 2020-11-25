@@ -1,16 +1,17 @@
-const { goto, title, write, waitFor, openBrowser, closeBrowser } = require('taiko');
+const { goto, openBrowser, text, click, closeBrowser } = require('taiko');
 
 const assert = require('assert');
 
 describe('Taiko Selenoid Example', () => {
   before(async () => {
-    await openBrowser({ headless: false });
+    await openBrowser();
   });
   it('Connect to Selendoid with CRI', async () => {
-    await goto('google.com');
-    await waitFor(5000);
-    await write('somoething');
-    assert.ok(await title(), 'Google');
+    await goto('https://taiko.dev/');
+    await click('Documentation');
+    await click('API Reference');
+    const elementPresent = await text('Browser actions').exists();
+    assert.ok(elementPresent, true);
   });
 
   after(async () => {
