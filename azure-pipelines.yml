@@ -26,14 +26,9 @@ jobs:
         versionSpec: '10.x'
        displayName: 'Install Node.js'
 
-  - job: 
-    steps:
-      - task: Docker@2
-        inputs:
-          arguments: taiko-selenoid
-
-      - script: |
+     - script: |
           npm install
           npm link
+          taiko-selenoid
           npm test
-        displayName: 'Npm Install and Test'
+       displayName: 'Npm Install and Test'
