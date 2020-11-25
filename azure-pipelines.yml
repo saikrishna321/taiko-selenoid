@@ -23,7 +23,8 @@ stages:
         displayName: 'npm install'
       - task: Npm@0
         inputs:
-         command: link --unsafe-perm=true --allow-root
+         command: link
+         arguments: --unsafe-perm=true --allow-root
         displayName: 'npm link '
         
       - script: |
