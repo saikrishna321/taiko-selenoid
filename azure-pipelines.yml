@@ -21,13 +21,9 @@ stages:
         inputs:
          command: install
         displayName: 'npm install'
-      - task: Npm@0
-        inputs:
-         command: link
-         arguments: --unsafe-perm=true --allow-root
-        displayName: 'npm link '
         
       - script: |
+          npm link
           taiko-selenoid
         displayName: Install Selenoid Dependencies
       - task: Npm@0
