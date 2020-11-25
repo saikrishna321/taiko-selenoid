@@ -10,13 +10,13 @@ jobs:
        displayName: 'Install Node.js'
 
      - script: |
-        npm run eslint 
-       displayName: 'Linting'
-
-     - script: |
         npm install
         npm link 
        displayName: 'Install and Link'
+       
+     - script: |
+        npm run eslint 
+       displayName: 'Linting'
 
      - script: |
           taiko-selenoid
