@@ -1,5 +1,5 @@
 pool:
-   vmImage: 'macos-10.15'
+   vmImage: 'ubuntu-latest'
   
 stages:
 - stage: build
