@@ -1,5 +1,4 @@
 import axios from 'axios';
-const fs = require('fs');
 
 export const ID = 'selenoid';
 let _openBrowser;
@@ -7,9 +6,17 @@ let _closeBrowser;
 let sessionId;
 let selenoidUrl = '127.0.0.1';
 
-export async function init(taiko) {
+export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   _openBrowser = taiko.openBrowser;
   _closeBrowser = taiko.closeBrowser;
+  registerHooks({
+    preConnectionHook: (target, options) => {
+      return {
+        target: `ws://127.0.0.1:4444/devtools/${sessionId}/page/${target}`,
+        options,
+      };
+    },
+  });
 }
 
 export async function openBrowser() {
@@ -24,15 +31,14 @@ export async function openBrowser() {
     },
   });
   sessionId = data.sessionId;
-  const jsonProtocol = await axios.get(
-    `ws://${selenoidUrl}:4444/devtools/${sessionId}/json/protocol`,
-  );
-  fs.writeFileSync('localProtocol.json', JSON.stringify(jsonProtocol.data));
   await _openBrowser({
     host: '127.0.0.1',
     port: 4444,
-    target: `/devtools/${sessionId}/page`,
-    protocol: require('../localProtocol.json'),
+    local: true,
+    target: `/devtools/${sessionId}/browser`,
+    alterPath: path => {
+      return path.includes('protocol') ? `/devtools/${sessionId}${path}` : path;
+    },
   });
 }
 
