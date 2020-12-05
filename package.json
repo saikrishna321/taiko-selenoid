@@ -4,8 +4,9 @@
   "description": "A plugin to run taiko tests in selenoid cluster",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "TAIKO_PLUGIN='taiko-selenoid, taiko-video' mocha __tests__/*.spec.js --timeout 90000",
+    "test": "TAIKO_PLUGIN='taiko-selenoid' mocha __tests__/*.spec.js --timeout 90000",
     "build": "babel src -d lib",
+    "eslint": "eslint '**/*.js' --fix",
     "prepublish": "babel src -d lib",
     "cm:install": "curl -s https://aerokube.com/cm/bash | bash",
     "selenoid:download": "./cm selenoid download",
@@ -14,6 +15,7 @@
     "selendoid:ui": "./cm selenoid-ui start",
     "selenoid:stop": "./cm selenoid stop",
     "selenoid:cleanup": "./cm selenoid cleanup",
+    "prettier": "prettier --write .",
     "prestest": "npm run selenoid:download && npm run selenoid:configure && npm run selendoid:ui && npm run selenoid:start",
     "aftertest": "npm run selenoid:cleanup && npm run selenoid:stop && npm run selenoid:cleanup"
   },
@@ -45,6 +47,7 @@
     "fs-extra": "^9.0.1"
   },
   "devDependencies": {
+    "prettier": "1.17.0",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
@@ -55,7 +58,6 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-prettier": "^3.0.1",
     "husky": "^2.1.0",
-    "prettier": "1.17.0",
     "jest": "^24.8.0",
     "lint-staged": "^8.1.4",
     "mocha": "^8.1.3",
@@ -64,7 +66,7 @@
     "taiko-video": "^0.1.1"
   },
   "lint-staged": {
-    "**/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write --single-quote",
       "git add"
     ]
