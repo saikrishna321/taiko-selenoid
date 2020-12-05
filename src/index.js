@@ -1,5 +1,4 @@
 import axios from 'axios';
-const fs = require('fs');
 
 export const ID = 'selenoid';
 let _openBrowser;
@@ -14,26 +13,23 @@ export async function init(taiko, eventEmitter, descEvent, registerHooks) {
     preConnectionHook: (target, options) => {
       return {
         target: `ws://127.0.0.1:4444/devtools/${sessionId}/page/${target}`,
-        options
+        options,
       };
-    }
+    },
   });
 }
 
 export async function openBrowser() {
-  const { data } = await axios.post(
-    `http://${selenoidUrl}:4444/wd/hub/session`,
-    {
-      desiredCapabilities: {
-        browserName: 'chrome',
-        browserVersion: '86.0',
-        'selenoid:options': {
-          sessionTimeout: '3m',
-          enableVnc: true
-        }
-      }
-    }
-  );
+  const { data } = await axios.post(`http://${selenoidUrl}:4444/wd/hub/session`, {
+    desiredCapabilities: {
+      browserName: 'chrome',
+      browserVersion: '86.0',
+      'selenoid:options': {
+        sessionTimeout: '3m',
+        enableVnc: true,
+      },
+    },
+  });
   sessionId = data.sessionId;
   await _openBrowser({
     host: '127.0.0.1',
@@ -42,7 +38,7 @@ export async function openBrowser() {
     target: `/devtools/${sessionId}/browser`,
     alterPath: path => {
       return path.includes('protocol') ? `/devtools/${sessionId}${path}` : path;
-    }
+    },
   });
 }
 
@@ -55,5 +51,5 @@ module.exports = {
   ID,
   init,
   openBrowser,
-  closeBrowser
+  closeBrowser,
 };
