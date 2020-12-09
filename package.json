@@ -54,7 +54,7 @@
     "assert": "^2.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.15.0",
-    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-prettier": "^3.0.1",
     "husky": "^2.1.0",
