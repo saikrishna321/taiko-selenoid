@@ -47,7 +47,7 @@
     "fs-extra": "^9.0.1"
   },
   "devDependencies": {
-    "prettier": "1.17.0",
+    "prettier": "2.2.1",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
