@@ -49,7 +49,7 @@ export async function closeBrowser() {
   logger.info('Attempting to close browser...');
   _closeBrowser();
   logger.info('Taiko Browser closed');
-  await axios.delete(`http://${selenoidUrl}:${selenoidPort}/wd/hub/session/${sessionId}`);
+  await axios.delete(`http://${selenoidHost}:${selenoidPort}/wd/hub/session/${sessionId}`);
   logger.info('Selenoid Session closed');
 }
 
