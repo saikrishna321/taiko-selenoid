@@ -1,4 +1,5 @@
 import axios from 'axios';
+import logger from './logger';
 
 export const ID = 'selenoid';
 let _openBrowser;
@@ -31,6 +32,7 @@ export async function openBrowser() {
     },
   });
   sessionId = data.sessionId;
+  if (sessionId) logger.info('Selenoid Session created successfully!!');
   await _openBrowser({
     host: '127.0.0.1',
     port: 4444,
@@ -43,8 +45,11 @@ export async function openBrowser() {
 }
 
 export async function closeBrowser() {
-  await _closeBrowser();
+  logger.info('Attempting to close browser...');
+  _closeBrowser();
+  logger.info('Taiko Browser closed');
   await axios.delete(`http://${selenoidUrl}:4444/wd/hub/session/${sessionId}`);
+  logger.info('Selenoid Session closed');
 }
 
 module.exports = {
