@@ -4,7 +4,8 @@ export const ID = 'selenoid';
 let _openBrowser;
 let _closeBrowser;
 let sessionId;
-let selenoidUrl = '127.0.0.1';
+let selenoidHost = '127.0.0.1';
+let selenoidPort = 4444;
 
 export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   _openBrowser = taiko.openBrowser;
@@ -12,7 +13,7 @@ export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   registerHooks({
     preConnectionHook: (target, options) => {
       return {
-        target: `ws://127.0.0.1:4444/devtools/${sessionId}/page/${target}`,
+        target: `ws://${selenoidHost}:${selenoidPort}/devtools/${sessionId}/page/${target}`,
         options,
       };
     },
@@ -20,7 +21,7 @@ export async function init(taiko, eventEmitter, descEvent, registerHooks) {
 }
 
 export async function openBrowser() {
-  const { data } = await axios.post(`http://${selenoidUrl}:4444/wd/hub/session`, {
+  const { data } = await axios.post(`http://${selenoidHost}:${selenoidPort}/wd/hub/session`, {
     desiredCapabilities: {
       browserName: 'chrome',
       browserVersion: '86.0',
@@ -32,8 +33,8 @@ export async function openBrowser() {
   });
   sessionId = data.sessionId;
   await _openBrowser({
-    host: '127.0.0.1',
-    port: 4444,
+    host: `${selenoidHost}`,
+    port: `${selenoidPort}`,
     local: true,
     target: `/devtools/${sessionId}/browser`,
     alterPath: path => {
@@ -44,7 +45,7 @@ export async function openBrowser() {
 
 export async function closeBrowser() {
   await _closeBrowser();
-  await axios.delete(`http://${selenoidUrl}:4444/wd/hub/session/${sessionId}`);
+  await axios.delete(`http://${selenoidHost}:${selenoidPort}/wd/hub/session/${sessionId}`);
 }
 
 module.exports = {
