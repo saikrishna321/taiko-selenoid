@@ -4,7 +4,7 @@
   "description": "A plugin to run taiko tests in selenoid cluster",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "TAIKO_PLUGIN='taiko-selenoid' mocha __tests__/*.spec.js --timeout 90000",
+    "test": "npm run build && TAIKO_PLUGIN='taiko-selenoid' mocha __tests__/*.spec.js --timeout 90000",
     "build": "babel src -d lib",
     "eslint": "eslint '**/*.js' --fix",
     "prepublish": "babel src -d lib",

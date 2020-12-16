@@ -1,11 +1,24 @@
 import logger from './logger';
 import { createSelenoidSession, deleteSelenoidSession } from './Api';
+
 export const ID = 'selenoid';
 let _openBrowser;
 let _closeBrowser;
 let sessionId;
 let selenoidHost = '127.0.0.1';
 let selenoidPort = 4444;
+let defaultConfig = {
+  desiredCapabilities: {
+    browserName: 'chrome',
+    browserVersion: '86.0',
+    'selenoid:options': {
+      sessionTimeout: '3m',
+      enableVnc: true,
+    },
+  },
+};
+
+Object.assign(defaultConfig.desiredCapabilities['selenoid:options'], selenoidConfig);
 
 export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   _openBrowser = taiko.openBrowser;
@@ -23,16 +36,7 @@ export async function init(taiko, eventEmitter, descEvent, registerHooks) {
 export async function openBrowser() {
   const { data } = await createSelenoidSession(
     `http://${selenoidHost}:${selenoidPort}/wd/hub/session`,
-    {
-      desiredCapabilities: {
-        browserName: 'chrome',
-        browserVersion: '86.0',
-        'selenoid:options': {
-          sessionTimeout: '3m',
-          enableVnc: true,
-        },
-      },
-    },
+    defaultConfig,
   );
   sessionId = data.sessionId;
   logger.info('Selenoid Session created successfully!!');
@@ -50,7 +54,7 @@ export async function openBrowser() {
 export async function closeBrowser() {
   if (sessionId) {
     logger.info('Attempting to close browser...');
-    _closeBrowser();
+    await _closeBrowser();
     logger.info('Taiko Browser closed');
     await deleteSelenoidSession(
       `http://${selenoidHost}:${selenoidPort}/wd/hub/session/${sessionId}`,
