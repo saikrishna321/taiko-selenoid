@@ -1,5 +1,7 @@
 import logger from './logger';
 import { createSelenoidSession, deleteSelenoidSession } from './Api';
+import fs from 'fs';
+import path from 'path';
 
 export const ID = 'selenoid';
 let _openBrowser;
@@ -18,7 +20,10 @@ let defaultConfig = {
   },
 };
 
-Object.assign(defaultConfig.desiredCapabilities['selenoid:options'], selenoidConfig);
+if (fs.existsSync(path.resolve(__dirname, '../selenoid.config.js'))) {
+  let selenoidConfig = require('../selenoid.config');
+  Object.assign(defaultConfig.desiredCapabilities['selenoid:options'], selenoidConfig);
+}
 
 export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   _openBrowser = taiko.openBrowser;
@@ -39,7 +44,7 @@ export async function openBrowser() {
     defaultConfig,
   );
   sessionId = data.sessionId;
-  logger.info('Selenoid Session created successfully!!');
+  logger.info('Selenoid Session created successfully!!', JSON.stringify(defaultConfig));
   await _openBrowser({
     host: `${selenoidHost}`,
     port: `${selenoidPort}`,
@@ -54,7 +59,7 @@ export async function openBrowser() {
 export async function closeBrowser() {
   if (sessionId) {
     logger.info('Attempting to close browser...');
-    await _closeBrowser();
+    _closeBrowser();
     logger.info('Taiko Browser closed');
     await deleteSelenoidSession(
       `http://${selenoidHost}:${selenoidPort}/wd/hub/session/${sessionId}`,

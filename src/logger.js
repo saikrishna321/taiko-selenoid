@@ -6,8 +6,10 @@ colors
   .set('DEBUG', chalk.bold.magenta)
   .set('WARN', chalk.bold.yellow);
 const logToConsole = (level, message, ...optionalParams) => {
-  const msg = `[${level}] ${[message, ...optionalParams].join()}`;
-  console.log(colors.get(level)(msg));
+  if (process.env.TAIKO_SELENOID_LOGGER === 'true') {
+    const msg = `[${level}] ${[message, ...optionalParams].join()}`;
+    console.log(colors.get(level)(msg));
+  }
 };
 export default {
   info: (message, ...optionalParams) => logToConsole('INFO', message, optionalParams),
