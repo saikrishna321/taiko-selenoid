@@ -59,7 +59,6 @@ export async function openBrowser() {
 export async function closeBrowser() {
   if (sessionId) {
     logger.info('Attempting to close browser...');
-    _closeBrowser();
     logger.info('Taiko Browser closed');
     await deleteSelenoidSession(
       `http://${selenoidHost}:${selenoidPort}/wd/hub/session/${sessionId}`,
