@@ -5,7 +5,6 @@ import path from 'path';
 
 export const ID = 'selenoid';
 let _openBrowser;
-let _closeBrowser;
 let sessionId;
 let selenoidHost = '127.0.0.1';
 let selenoidPort = 4444;
@@ -27,7 +26,6 @@ if (fs.existsSync(path.resolve(__dirname, '../selenoid.config.js'))) {
 
 export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   _openBrowser = taiko.openBrowser;
-  _closeBrowser = taiko.closeBrowser;
   registerHooks({
     preConnectionHook: (target, options) => {
       return {
