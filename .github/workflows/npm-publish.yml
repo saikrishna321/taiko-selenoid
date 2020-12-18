@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
+      - run: npm link
+      - run: taiko-selenoid    
       - run: npm test
 
   publish-npm:
