@@ -52,6 +52,7 @@ export async function openBrowser() {
       return path.includes('protocol') ? `/devtools/${sessionId}${path}` : path;
     },
   });
+  return sessionId;
 }
 
 export async function closeBrowser() {

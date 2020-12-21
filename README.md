@@ -12,29 +12,25 @@ A plugin to run taiko tests in Selenoid cluster
 
 ### Usage
 
-Add ```TAIKO_PLUGIN=taiko-selenoid``` to your env
+Add `TAIKO_PLUGIN=taiko-selenoid` to your env
 
 ```javascript
-const {
-  openBrowser,
-  closeBrowser,
-} = require('taiko');
+const { openBrowser, closeBrowser } = require('taiko');
 
 const assert = require('assert');
 
 describe('Selenoid Tests', async () => {
   beforeEach('Before Launch', async () => {
-    await openBrowser(); // Will create a Selenoid Session and OpenBrowser
+    await openBrowser(); // return Selenoid Session Id
   });
 
   afterEach('Close Browser', async () => {
     await closeBrowser(); // Will close the browser and Selenoid Session
   });
-  
+
   it('Taiko Selenoid Test', async () => {
     await goto('google.com');
     await write('Taiko.js');
   });
 });
-
 ```
