@@ -16,9 +16,6 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
-      - run: npm link
-      - run: taiko-selenoid    
-      - run: npm test
 
   publish-npm:
     needs: build
@@ -28,7 +25,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm ci
-      - run: npm publish
+      - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
