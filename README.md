@@ -10,6 +10,12 @@
 
 A plugin to run taiko tests in Selenoid cluster
 
+### Installation
+
+```npm install taiko-selenoid --save-dev ```
+
+A plugin to run taiko tests in Selenoid cluster
+
 ### Usage
 
 Add `TAIKO_PLUGIN=taiko-selenoid` to your env
