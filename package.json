@@ -42,7 +42,7 @@
   "homepage": "https://github.com/saikrishna321/taiko-selenoid#readme",
   "dependencies": {
     "await-spawn": "^4.0.1",
-    "axios": "0.21.0",
+    "axios": "0.21.1",
     "chalk": "^4.1.0",
     "fs-extra": "^9.0.1"
   },
