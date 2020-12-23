@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
-      - run: npm publish --access=public
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}} 
+      - run: npm publish --access=public
+        
