@@ -15,8 +15,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}} 
+      - run: echo "//registry.npmjs.org/:_authToken=${{secrets.npm_token}}" > .npmrc 
+      - run: npm ci 
       - run: npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
         
