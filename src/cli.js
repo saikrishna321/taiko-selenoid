@@ -7,6 +7,7 @@ const log = console.log;
 
 class SelenoidSetup {
   async downloadCM() {
+    log(chalk.greenBright('Configuration Manager Not Found.'));
     log(chalk.greenBright('Configuration Manager Downloadin...'));
     const { stdout, stderr } = await exec('curl -s https://aerokube.com/cm/bash | bash');
     log('stdout:', stdout);
@@ -38,6 +39,7 @@ class SelenoidSetup {
     ls.stderr.on('data', function(data) {
       console.log(chalk.cyan(data.toString()));
     });
+    ls.on('error', async () => await this.downloadCM());
     ls.on('exit', () => {
       return () => {
         log(chalk.greenBright('Starting Selenoid UI'));
@@ -56,5 +58,5 @@ class SelenoidSetup {
 
 (async () => {
   const se = new SelenoidSetup();
-  await se.downloadCM();
+  await se.startSelenoid();
 })();
