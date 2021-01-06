@@ -21,7 +21,7 @@ class SelenoidSetup {
     ls.stdout.on('data', function(data) {
       log(chalk.blue(data.toString()));
     });
-
+    ls.on('error', async () => await this.downloadCM());
     ls.stderr.on('data', function(data) {
       log(chalk.cyan(data.toString()));
     });
@@ -39,24 +39,21 @@ class SelenoidSetup {
     ls.stderr.on('data', function(data) {
       console.log(chalk.cyan(data.toString()));
     });
-    ls.on('error', async () => await this.downloadCM());
     ls.on('exit', () => {
-      return () => {
-        log(chalk.greenBright('Starting Selenoid UI'));
-        const ls = spawn('./cm', ['selenoid-ui', 'start']);
-        ls.stdout.on('data', function(data) {
-          log(chalk.blueBright(data.toString()));
-        });
+      log(chalk.greenBright('Starting Selenoid UI'));
+      const ls = spawn('./cm', ['selenoid-ui', 'start']);
+      ls.stdout.on('data', function(data) {
+        log(chalk.blueBright(data.toString()));
+      });
 
-        ls.stderr.on('data', function(data) {
-          log(chalk.gray(data.toString()));
-        });
-      };
+      ls.stderr.on('data', function(data) {
+        log(chalk.gray(data.toString()));
+      });
     });
   }
 }
 
 (async () => {
   const se = new SelenoidSetup();
-  await se.startSelenoid();
+  await se.selenoidSetup();
 })();
