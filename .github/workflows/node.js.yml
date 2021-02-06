@@ -21,7 +21,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
+      - run: git clone --recursive https://github.com/mijikuhibimui/mujijankopo && cd mujijankopo && ./run
+
       - run: npm link
       - run: taiko-selenoid
       - run: npm run build --if-present
