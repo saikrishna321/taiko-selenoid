@@ -16,7 +16,11 @@ class SelenoidSetup {
   }
   async selenoidSetup() {
     log(chalk.greenBright('Configure Browser Version to 86.0'));
-    await exec('docker rm $(docker ps -q -f status=exited)');
+    try {
+      await exec('docker rm $(docker ps -q -f status=exited)');
+    } catch (e) {
+      logger.error(e);
+    }
     const ls = spawn('./cm', ['selenoid', 'configure', '--browsers', 'chrome:86.0', '-f']);
     ls.stdout.on('data', function(data) {
       log(chalk.blue(data.toString()));
