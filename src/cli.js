@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import logger from './logger';
+import fs from 'fs';
 
 require
 const { promisify } = require('util');
