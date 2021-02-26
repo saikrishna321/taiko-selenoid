@@ -2,6 +2,7 @@
 require
 const logger = require('./logger');
 const fs = require('fs');
+const path = require('path');
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 var spawn = require('child_process').spawn;
