@@ -6,8 +6,8 @@ import path from 'path';
 export const ID = 'selenoid';
 let _openBrowser;
 let sessionId;
-let selenoidHost = '127.0.0.1';
 let selenoidPort = 4444;
+let selenoidHost = '127.0.0.1';
 let defaultConfig = {
   desiredCapabilities: {
     browserName: 'chrome',
@@ -22,6 +22,8 @@ let defaultConfig = {
 if (fs.existsSync(path.resolve(__dirname, '../selenoid.config.js'))) {
   let selenoidConfig = require('../selenoid.config');
   Object.assign(defaultConfig.desiredCapabilities['selenoid:options'], selenoidConfig);
+  selenoidPort = selenoidConfig.selenoidPort ? selenoidConfig.selenoidPort : selenoidPort;
+  selenoidHost = selenoidConfig.selenoidHost ? selenoidConfig.selenoidHost : selenoidHost;
 }
 
 export async function init(taiko, eventEmitter, descEvent, registerHooks) {
@@ -70,5 +72,5 @@ module.exports = {
   ID,
   init,
   openBrowser,
-  closeBrowser,
+  closeBrowser
 };
