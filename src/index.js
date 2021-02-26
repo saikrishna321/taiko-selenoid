@@ -72,5 +72,5 @@ module.exports = {
   ID,
   init,
   openBrowser,
-  closeBrowser
+  closeBrowser,
 };
