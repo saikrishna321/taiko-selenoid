@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const logger = require('./logger');
+import logger from './logger';
 const fs = require('fs');
 const path = require('path');
 const { promisify } = require('util');
@@ -44,8 +44,8 @@ class SelenoidSetup {
   }
 
   startSelenoid() {
-    log(chalk.greenBright(`Starting Selenoid on port: ${port}`));
-    const ls = spawn('./cm', ['selenoid', 'start', '--vnc', '--port', `${port}`]);
+    log(chalk.greenBright(`Starting Selenoid on port: ${selenoidPort}`));
+    const ls = spawn('./cm', ['selenoid', 'start', '--vnc', '--port', `${selenoidPort}`]);
     ls.stdout.on('data', function (data) {
       console.log(chalk.blue(data.toString()));
     });
