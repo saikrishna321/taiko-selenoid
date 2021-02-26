@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require
+
 const logger = require('./logger');
 const fs = require('fs');
 const path = require('path');
