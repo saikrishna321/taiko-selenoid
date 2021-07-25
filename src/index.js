@@ -6,39 +6,57 @@ import path from 'path';
 export const ID = 'selenoid';
 let _openBrowser;
 let sessionId;
-let selenoidPort = 4444;
-let selenoidHost = '127.0.0.1';
-let defaultConfig = {
+export let defaultConfig = {
   desiredCapabilities: {
     browserName: 'chrome',
-    browserVersion: '86.0',
+    browserVersion: '88.0',
     'selenoid:options': {
       sessionTimeout: '3m',
       enableVnc: true,
+      selenoidHost: '127.0.0.1',
+      selenoidPort: 4444,
     },
   },
 };
 
-if (fs.existsSync(path.resolve(__dirname, '../selenoid.config.js'))) {
-  let selenoidConfig = require('../selenoid.config');
-  Object.assign(defaultConfig.desiredCapabilities['selenoid:options'], selenoidConfig);
-  selenoidPort = selenoidConfig.selenoidPort ? selenoidConfig.selenoidPort : selenoidPort;
-  selenoidHost = selenoidConfig.selenoidHost ? selenoidConfig.selenoidHost : selenoidHost;
+export const setSelenoidConfig = (options) => {
+  if (fs.existsSync(path.resolve(__dirname, '../selenoid.config.js'))) {
+    let selenoidConfig = require('../selenoid.config');
+    Object.assign(defaultConfig.desiredCapabilities['selenoid:options'], selenoidConfig);
+  }
+  if (Object.keys(options).length > 0) {
+    for (const key in options) {
+      if ((Object.prototype.hasOwnProperty.call(defaultConfig.desiredCapabilities['selenoid:options'], key)) && 
+      (typeof defaultConfig.desiredCapabilities['selenoid:options'][key] !== typeof options[key])) {
+          throw new Error(
+            `Invalid value for ${key}. Expected ${typeof defaultConfig.desiredCapabilities['selenoid:options'][
+            key
+            ]} received ${typeof options[key]}`,
+          );
+        }
+      else {
+        defaultConfig.desiredCapabilities['selenoid:options'][key] = options[key];
+      }
+    }
+  };
 }
+
+setSelenoidConfig({});
 
 export async function init(taiko, eventEmitter, descEvent, registerHooks) {
   _openBrowser = taiko.openBrowser;
   registerHooks({
     preConnectionHook: (target, options) => {
       return {
-        target: `ws://${selenoidHost}:${selenoidPort}/devtools/${sessionId}/page/${target}`,
+        target: `ws://${defaultSelenoidConfig.selenoidHost}:${defaultSelenoidConfig.selenoidPort}/devtools/${sessionId}/page/${target}`,
         options,
       };
     },
   });
 }
-
 export async function openBrowser() {
+  const selenoidHost = defaultConfig.desiredCapabilities['selenoid:options'].selenoidHost;
+  const selenoidPort = defaultConfig.desiredCapabilities['selenoid:options'].selenoidPort;
   const { data } = await createSelenoidSession(
     `http://${selenoidHost}:${selenoidPort}/wd/hub/session`,
     defaultConfig,
@@ -56,8 +74,9 @@ export async function openBrowser() {
   });
   return sessionId;
 }
-
 export async function closeBrowser() {
+  const selenoidHost = defaultConfig.desiredCapabilities['selenoid:options'].selenoidHost;
+  const selenoidPort = defaultConfig.desiredCapabilities['selenoid:options'].selenoidPort;
   if (sessionId) {
     logger.info('Attempting to close browser...');
     logger.info('Taiko Browser closed');
@@ -67,10 +86,11 @@ export async function closeBrowser() {
     logger.info('Selenoid Session closed');
   }
 }
-
 module.exports = {
   ID,
+  defaultConfig,
   init,
   openBrowser,
   closeBrowser,
+  setSelenoidConfig,
 };
